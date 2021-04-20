@@ -12,7 +12,7 @@ def count_rows(datafile):
     print ("The total number of rows actually containing data is",counter) #Our porgram knows the first row is metadata and not part of the dataset
     
 
-#count_rows("data.csv")
+count_rows("data.csv")
 
 def validate_profits(datafile):
     data=open(datafile)  
@@ -37,23 +37,29 @@ def validate_profits(datafile):
         except IndexError:
             break
     count_rows("validated.csv")
-#validate_profits("data.csv")
+validate_profits("data.csv")
 
 def json_converter(datafile):
-    jsondict={}
     data=open(datafile)  
     parse=csv.DictReader(data)
-
+    
     #Json File
-    newfile= open("Validated.json", "w", newline="")
+    newfile= open("data2.json", "w", newline="")
     for rows in parse:
         try:
             (float(rows["Profit (in millions)"]))
             newfile.write(json.dumps(rows, indent=4))
+            
+            
+            
         except ValueError:
             pass
-            
-        
+    import ast
+    # Read all lines into a list
+    with open("data2.json") as f:
+        content = [ ast.literal_eval( l ) for l in f.readlines() ]
+    
+
 json_converter("data.csv")    
 
 
