@@ -55,7 +55,7 @@ def json_converter(datafile):#Here is where we convert to JSON
             output_list.append(rows)#Making sure we don't get any non numeric rows in our JSON file
         except ValueError:
             pass
-    newfile.write(json.dumps(output_list, indent=4))#Oytput the JSON data
+    newfile.write(json.dumps(output_list, indent=4))#Output the JSON data
     
     
 
