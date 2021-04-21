@@ -47,20 +47,17 @@ def json_converter(datafile):
     newfile= open("data2.json", "w", newline="")
     for rows in parse:
         try:
-            (float(rows["Profit (in millions)"]))
-            newfile.write(json.dumps(rows, indent=4))
+            (float(rows["Profit (in millions)"]))#This validates that the value in this column is a number. 
+            newfile.write(json.dumps([rows], indent=4))
             
             
             
         except ValueError:
             pass
-    import ast
-    # Read all lines into a list
-    with open("data2.json") as f:
-        content = [ ast.literal_eval( l ) for l in f.readlines() ]
+    
     
 
 json_converter("data.csv")    
 
 
-
+def highest-profit(datafile):
