@@ -10,7 +10,7 @@ def count_rows(datafile):
     parse=csv.DictReader(data)
     for rows in parse: #This loop iterates through each row and updates the counter so we can print the total number of rows. 
         counter +=1
-    print ("The total number of rows actually containing data is",counter) #Our porgram knows the first row is metadata and not part of the dataset.
+    print ("The total number of rows actually containing data is",counter) #Our program knows the first row is metadata and not part of the dataset.
     
 
 count_rows("data.csv")
@@ -30,7 +30,7 @@ def validate_profits(datafile):#this will remove non numeric profits rows so we 
 
         except ValueError:
             pass
-    counter=0   
+    counter=0   0
     while True:
         try:
             counter+=1
