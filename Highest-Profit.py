@@ -4,7 +4,7 @@ import json#For part 3
 
 
 def count_rows(datafile):
-    counter= 0#Using a counter for iteration as a throwback to my highschool days. 
+    counter=0 #Using a counter for iteration as a throwback to my highschool days. 
 
     data=open(datafile)#Open and parse csv.
     parse=csv.DictReader(data)
@@ -13,33 +13,26 @@ def count_rows(datafile):
     print ("The total number of rows actually containing data is",counter) #Our program knows the first row is metadata and not part of the dataset.
     
 
-count_rows("data.csv")
-
-def validate_profits(datafile):#this will remove non numeric profits rows so we can get a count of our useful dataset.
+def validate_profits(datafile):
+    #this will remove non numeric profits rows so we can get a count of our useful dataset.
     data=open(datafile)  #Open then parse data.
     parse=csv.DictReader(data)
     newfile= open("validated.csv", "w", newline="")#New file for output. 
-    output = csv.writer(newfile)
-    outputlist=[]
-
-    for rows in parse: #Looping through CSV files to check each profit column. 
+    insert_header=csv.writer(newfile)
+    output = csv.DictWriter(newfile, fieldnames=parse.fieldnames)
+    headers=['Year','Rank','Company','Revenue (in millions)','Profit (in millions)']
+    insert_header.writerow(headers)
+    count = 0
+    for row in parse:
         try:
-            (float(rows["Profit (in millions)"]))#This is the validation for the Profit column
-            outputlist.append(rows)
-            
-
+            _ = float(row["Profit (in millions)"])
+            output.writerow(row)
+            count += 1
         except ValueError:
             pass
-    counter=0   0
-    while True:
-        try:
-            counter+=1
-            output.writerows([[outputlist[counter]]])#Output the numericaly valid rows to a new file.
-        except IndexError:
-            break
+    
     count_rows("validated.csv")
 
-validate_profits("data.csv")
 
 def json_converter(datafile):#Here is where we convert to JSON
     data=open(datafile)  
@@ -59,7 +52,7 @@ def json_converter(datafile):#Here is where we convert to JSON
     
     
 
-json_converter("data.csv")    
+  
 
 
 def highest_profit(datafile):#Sorting and printing the highest profits. 
@@ -67,5 +60,9 @@ def highest_profit(datafile):#Sorting and printing the highest profits.
     parse=json.load(data)
     sort=sorted(parse, key=lambda x: (x["Profit (in millions)"]),reverse=True)#Sorting the JSON data by the profit row. 
     for i in range (20):#Printing top 20 results
-        print (sort[i])
+        print(json.dumps(sort[i], indent=4, sort_keys=True))
+
+count_rows("data.csv")
+validate_profits("data.csv")
+json_converter("data.csv")  
 highest_profit("data2.json")
