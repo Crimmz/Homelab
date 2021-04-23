@@ -8,7 +8,7 @@ def count_rows(datafile):
 
     data=open(datafile)#Open and parse csv.
     parse=csv.DictReader(data)
-    for rows in parse: #This loop iterates through each row and updates the counter so we can print the total number of rows. 
+    for rows in parse: #This loop iterates through each row and updates the counter so we can print the total number of rows excluding the header row. 
         counter +=1
     print ("The total number of rows actually containing data is",counter) #Our program knows the first row is metadata and not part of the dataset.
     
@@ -18,20 +18,19 @@ def validate_profits(datafile):
     data=open(datafile)  #Open then parse data.
     parse=csv.DictReader(data)
     newfile= open("validated.csv", "w", newline="")#New file for output. 
-    insert_header=csv.writer(newfile)
-    output = csv.DictWriter(newfile, fieldnames=parse.fieldnames)
+    insert_header=csv.writer(newfile)#I found due to the way the data structures worked in the library I needed to use csv.writer for the header and then use DictWriter for the values
+    output = csv.DictWriter(newfile, fieldnames=parse.fieldnames)#This line makes sure our values go into the correct column. 
     headers=['Year','Rank','Company','Revenue (in millions)','Profit (in millions)']
     insert_header.writerow(headers)
     count = 0
     for row in parse:
         try:
-            _ = float(row["Profit (in millions)"])
+            _ = float(row["Profit (in millions)"])#This is just a very simple way to get rid of any non numeric values
             output.writerow(row)
             count += 1
         except ValueError:
             pass
-    
-    count_rows("validated.csv")
+    print ("The total number of rows actually containing data is",count) #Printing the amount of row of financial data. 
 
 
 def json_converter(datafile):#Here is where we convert to JSON
@@ -66,3 +65,4 @@ count_rows("data.csv")
 validate_profits("data.csv")
 json_converter("data.csv")  
 highest_profit("data2.json")
+count_rows("validated.csv")
